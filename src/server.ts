@@ -19,7 +19,7 @@ export function createServer(opts: CreateServerOptions = {}): McpServer {
         "Post, reply, quote, repost, DM send, delete, and hide require confirm=true after an explicit named ask.",
         "If media upload fails, STOP — never substitute another asset.",
         "Do not spam-reply. Do not send bulk unsolicited DMs.",
-        "X API has no native schedule. Do not fake a queue.",
+        "X API has no native schedule. Use x_organic_scheduler_setup then x_organic_schedule_create for AdvisorPPC's own queue. HTTP auto-starts the worker; stdio needs npm run worker.",
         "Pay-per-use as of 2026: ~$0.015 per plain post, ~$0.20 per link post — warn before posting links.",
         "Self-serve replies to others only work if they @mentioned you or quoted you.",
         "Call x_organic_get_me first when you need the authenticated user id.",

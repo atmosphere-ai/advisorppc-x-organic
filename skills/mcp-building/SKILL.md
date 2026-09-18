@@ -1,7 +1,7 @@
 ---
 name: mcp-building
 description: Use when building or extending this MCP server, choosing SDK v1 vs v2, Streamable HTTP vs stdio, or adding tools the official XMCP dump does not curate.
-version: 0.1.0
+version: 0.2.0
 ---
 
 # Building on MCP v2 (2026-07-28)
@@ -22,9 +22,10 @@ This repo uses **SDK v2** (`@modelcontextprotocol/server`), not the v1 monolith 
 - `src/policy/safety.ts` — `confirm` flags, no invented copy, no bulk DMs
 - `src/x/media.ts` — simple image + v2 chunked video (`tweet_*` / `dm_*`, never `amplify_video`)
 - `src/x/posts.ts` — tweet body + inbox grouping + billing note
-- `src/tools/read.ts` / `write.ts` / `inbox.ts`
+- `src/tools/read.ts` / `write.ts` / `inbox.ts` / `schedule.ts`
+- `src/schedule/` — portable job store + worker (export `@advisorppc/x-organic/schedule`)
 - `src/apps/` — MCP Apps `ui://` resource + tool `_meta.ui.resourceUri`
-- `src/index.ts` stdio · `src/http.ts` Streamable HTTP
+- `src/index.ts` stdio · `src/http.ts` Streamable HTTP (auto-starts worker) · `src/worker.ts` standalone
 
 ## Adding a tool
 
@@ -41,4 +42,4 @@ This repo uses **SDK v2** (`@modelcontextprotocol/server`), not the v1 monolith 
 - Mix Ads API v12 / `amplify_video` into this server.
 - Depend on v1 `HTTP+SSE` (`/sse` + `/messages`).
 - Register tools on a shared `McpServer` outside the HTTP factory.
-- Fake a native schedule queue.
+- Claim X has a native schedule. Use the AdvisorPPC queue module.

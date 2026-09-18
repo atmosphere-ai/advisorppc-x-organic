@@ -4,7 +4,7 @@
 
 This is the posting / community-management connector. Ads live in [`atmosphere-ai/advisorppc-x-ads`](https://github.com/atmosphere-ai/advisorppc-x-ads). Official XMCP at `https://api.x.com/mcp` is a 140–200 endpoint dump that bills per call; this package is a **curated operator set** (composites, confirm flags, skills).
 
-[Website](https://advisorppc.com) · [Tasks](TASKS.md) · [Reverse-engineering](docs/X-API-REVERSE-ENGINEERING.md) · [MCP v2 notes](docs/MCP-V2.md)
+[Website](https://advisorppc.com) · [Tasks](TASKS.md) · [Reverse-engineering](docs/X-API-REVERSE-ENGINEERING.md) · [MCP v2 notes](docs/MCP-V2.md) · [Scheduler](docs/SCHEDULER.md)
 
 ## What you get
 
@@ -12,11 +12,12 @@ This is the posting / community-management connector. Ads live in [`atmosphere-a
 | --- | --- |
 | Protocol | MCP **2026-07-28** (SDK v2 `@modelcontextprotocol/server`) |
 | Transports | **stdio** (local) and **Streamable HTTP** `POST /mcp` |
-| UI | **MCP Apps** dashboard `ui://advisorppc/x-organic/dashboard` (hosts without Apps still get JSON) |
+| UI | **MCP Apps** dashboard + scheduler (`ui://advisorppc/x-organic/dashboard`, `…/scheduler`) |
 | API | `https://api.x.com/2` with OAuth2 user-context Bearer |
 | Safety | Never invent copy; `confirm=true` on live-fire; media failure stops; no bulk DMs |
+| Scheduler | AdvisorPPC queue (X has none). HTTP auto-starts the worker. Import `@advisorppc/x-organic/schedule` in the backend. |
 
-## Tools (32)
+## Tools (40)
 
 **Read:** `x_organic_get_me` · `x_organic_lookup_user` · `x_organic_lookup_users` · `x_organic_search_users` · `x_organic_get_post` · `x_organic_lookup_posts` · `x_organic_user_posts` · `x_organic_my_timeline` · `x_organic_mentions` · `x_organic_search_recent` · `x_organic_list_replies` · `x_organic_get_quote_tweets` · `x_organic_liked_posts` · `x_organic_list_bookmarks`
 
@@ -27,6 +28,8 @@ This is the posting / community-management connector. Ads live in [`atmosphere-a
 **Media:** `x_organic_upload_media` (images + chunked `tweet_video` / `dm_video`, never `amplify_video`) · `x_organic_reply_with_media`
 
 **Inbox:** `x_organic_list_dm_events` · `x_organic_list_dm_conversation` · `x_organic_send_dm` · `x_organic_inbox_summary`
+
+**Scheduler / agents:** `x_organic_scheduler_setup` · `x_organic_scheduler_status` · `x_organic_scheduler_settings` · `x_organic_schedule_list` · `x_organic_schedule_create` · `x_organic_schedule_cancel` · `x_organic_agents_list` · `x_organic_agent_set`
 
 ## Install
 
@@ -96,7 +99,7 @@ X_ACCESS_TOKEN = "…"
 | Delete / hide | refused | `confirm=true` after the user named the post/reply |
 | Failed media | **stop** | never attach a substitute |
 | Invented copy, handle, or media | forbidden | user supplies it |
-| Schedule | not supported | X API has no native schedule |
+| Schedule | AdvisorPPC queue | `x_organic_scheduler_setup` then `schedule_create` (`confirm=true`). HTTP worker auto-starts. |
 
 **Pay-per-use (as of 2026):** ~$0.015 per plain post, **~$0.20 if the text contains a link**. Tool descriptions tell the model to warn before posting links.
 
@@ -111,6 +114,12 @@ X_ACCESS_TOKEN = "…"
 | `mcp-building` | How this server is built on MCP v2 |
 | `mcp-apps` | Inline dashboard / `ui://` resources |
 
+## Scheduler (built-in)
+
+X cannot natively schedule. Call **`x_organic_scheduler_setup`** once — it starts the worker and returns paste-ready configs for Claude, ChatGPT, Cursor, Grok, and the AdvisorPPC backend (`import { createScheduler } from "@advisorppc/x-organic/schedule"`).
+
+Agents: `publish_queue` (fires due jobs), `mention_digest` / `inbox_digest` (snapshots + optional webhook, **never** auto-reply), `health`. Details: [docs/SCHEDULER.md](docs/SCHEDULER.md).
+
 ## Develop
 
 ```bash
@@ -124,7 +133,7 @@ npm run dev:http
 
 - Not Ads, pixels, audiences, or campaigns — that is [`atmosphere-ai/advisorppc-x-ads`](https://github.com/atmosphere-ai/advisorppc-x-ads).
 - Not a 1:1 clone of X’s official XMCP at `https://api.x.com/mcp`.
-- Not a scheduler. X API cannot natively schedule posts.
+- Not a **native** X scheduler. The built-in queue is AdvisorPPC's.
 - Not a Google Ads connector — that is [`advisorppc-org/advisorppc-plugin`](https://github.com/advisorppc-org/advisorppc-plugin) → `https://mcp.advisorppc.com/claude`.
 
 ## License

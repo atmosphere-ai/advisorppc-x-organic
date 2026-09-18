@@ -1,14 +1,14 @@
 ---
 name: x-organic-operator
-description: Use when publishing threads, triaging mentions, or answering X Direct Messages through AdvisorPPC organic tools. Contains playbooks for the 32 x_organic_* tools.
-version: 0.1.0
+description: Use when publishing threads, triaging mentions, answering X Direct Messages, or scheduling posts through AdvisorPPC organic tools.
+version: 0.2.0
 ---
 
 # X organic operator playbooks
 
 This is **organic** X (`api.x.com/2`), not ads. Never invent copy, handles, or media. Warn that pay-per-use is ~$0.015/post and **~$0.20 if the text contains a link**.
 
-X API has **no native schedule**. Do not fake a queue.
+X API has **no native schedule**. Use AdvisorPPC `x_organic_scheduler_setup` + `x_organic_schedule_create`. Do not invent a publish time outside the job store.
 
 ## Publish a thread
 
@@ -38,6 +38,13 @@ Do not spam-reply. One named conversation at a time.
 4. No bulk unsolicited DMs. No “follow-up blast.”
 
 DM media: `x_organic_upload_media` with `destination=dm`, then pass `media_id`.
+
+## Schedule a post (AdvisorPPC queue)
+
+1. `x_organic_scheduler_setup` once (starts worker; paste snippets for Claude/ChatGPT/Cursor/Grok).
+2. Confirm copy + time with the user.
+3. `x_organic_schedule_create` with `kind=once`, `run_at` ISO, `tool=x_organic_create_post`, `arguments.text` **exactly** their copy, `confirm=true`.
+4. Optional digest webhook in `x_organic_scheduler_settings` so another model vendor can triage mentions without this server inventing replies.
 
 ## Hard rules
 

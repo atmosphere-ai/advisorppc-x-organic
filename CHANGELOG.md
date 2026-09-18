@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.0 — 2026-09-18
+
+- Built-in AdvisorPPC scheduler module (`@advisorppc/x-organic/schedule`)
+- HTTP auto-starts the worker; `npm run worker` for stdio / backend
+- Tools: `x_organic_scheduler_setup` / `_status` / `_settings`, `x_organic_schedule_list` / `_create` / `_cancel`, `x_organic_agents_list` / `_agent_set`
+- Agents: publish_queue, mention_digest, inbox_digest, health (digests never auto-reply)
+- Vendor self-setup snippets for Claude, ChatGPT, Cursor, Grok, AdvisorPPC backend
+- MCP Apps scheduler view `ui://advisorppc/x-organic/scheduler`
+- 40 tools total
+
 ## 0.1.0 — 2026-09-18
 
 First user-facing release.

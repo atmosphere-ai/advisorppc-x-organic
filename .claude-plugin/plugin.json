@@ -1,7 +1,7 @@
 {
   "name": "advisorppc-x-organic",
-  "version": "0.1.0",
-  "description": "Work on a real X account from Claude Code: compose posts and threads, triage mentions, answer DMs, with confirm flags and no invented copy.",
+  "version": "0.2.0",
+  "description": "Work on a real X account from Claude Code: compose posts and threads, triage mentions, answer DMs, schedule via AdvisorPPC's own queue, with confirm flags and no invented copy.",
   "author": {
     "name": "Advisor Media",
     "url": "https://advisorppc.com"
@@ -13,6 +13,7 @@
     "organic",
     "mcp",
     "mcp-apps",
+    "scheduler",
     "social"
   ]
 }

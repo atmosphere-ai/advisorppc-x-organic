@@ -7,7 +7,7 @@ export const NO_SPAM =
   "Do not spam-reply and do not send bulk unsolicited DMs. One named conversation at a time.";
 
 export const NO_SCHEDULE =
-  "X API has no native schedule. Do not fake a queue or invent a publish time.";
+  "X API has no native schedule. Use AdvisorPPC x_organic_schedule_* tools — never invent a publish time outside the job store.";
 
 export const NEVER_INVENT_COPY =
   "Never invent post text, DM copy, handles, or media. Use only what the user supplied.";
