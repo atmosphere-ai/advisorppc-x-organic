@@ -1,0 +1,7 @@
+{
+  "advisorppc-x-organic": {
+    "type": "stdio",
+    "command": "node",
+    "args": ["dist/index.js"]
+  }
+}

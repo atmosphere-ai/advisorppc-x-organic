@@ -1,0 +1,14 @@
+{
+  "name": "advisorppc",
+  "owner": {
+    "name": "Advisor Media",
+    "url": "https://advisorppc.com"
+  },
+  "plugins": [
+    {
+      "name": "advisorppc-x-organic",
+      "source": "./",
+      "description": "Organic X MCP connector with confirm-gated writes and MCP Apps inbox/thread dashboard."
+    }
+  ]
+}
